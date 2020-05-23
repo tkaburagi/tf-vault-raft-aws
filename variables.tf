@@ -5,7 +5,6 @@ variable "ssh_private_key" {}
 variable "vault_instance_count" {
     default = 3
 }
-variable "vault_fqdn" {}
 
 variable "region" {
     default = "ap-northeast-1"
