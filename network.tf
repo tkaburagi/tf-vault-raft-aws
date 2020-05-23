@@ -43,9 +43,8 @@ resource "aws_route53_zone" "primary" {
 resource "aws_route53_record" "vault" {
     zone_id = aws_route53_zone.primary.id
     name    = aws_route53_zone.primary.name
-    type    = "CNAME"
+    type    = "NS"
     ttl     = "300"
-    records = [aws_alb.vault_alb.dns_name]
 }
 
 # VPC
