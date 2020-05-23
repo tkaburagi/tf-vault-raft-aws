@@ -45,6 +45,7 @@ resource "aws_route53_record" "vault" {
     name    = aws_route53_zone.primary.name
     type    = "NS"
     ttl     = "300"
+    records = [aws_alb.vault_alb.dns_name]
 }
 
 # VPC
