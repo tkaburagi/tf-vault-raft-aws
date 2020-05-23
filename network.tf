@@ -41,11 +41,17 @@ resource "aws_route53_zone" "primary" {
 }
 
 resource "aws_route53_record" "vault" {
+    allow_overwrite = true
     zone_id = aws_route53_zone.primary.id
     name    = aws_route53_zone.primary.name
     type    = "NS"
     ttl     = "300"
-    records = [aws_alb.vault_alb.dns_name]
+    records = [
+        aws_route53_zone.primary.name_servers[0],
+        aws_route53_zone.primary.name_servers[1],
+        aws_route53_zone.primary.name_servers[2],
+        aws_route53_zone.primary.name_servers[3],
+    ]
 }
 
 # VPC
