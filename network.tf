@@ -37,10 +37,10 @@ resource "aws_alb_listener" "http_vault" {
 
 #R53
 resource "aws_route53_zone" "primary" {
-    name = "kabu-vault.hashidemos.io"
+    name = "kabu.hashidemos.io"
 }
 
-resource "aws_route53_record" "vault" {
+resource "aws_route53_record" "primary" {
     allow_overwrite = true
     zone_id = aws_route53_zone.primary.id
     name    = aws_route53_zone.primary.name
@@ -51,6 +51,17 @@ resource "aws_route53_record" "vault" {
         aws_route53_zone.primary.name_servers[1],
         aws_route53_zone.primary.name_servers[2],
         aws_route53_zone.primary.name_servers[3],
+    ]
+}
+
+resource "aws_route53_record" "vault" {
+    allow_overwrite = true
+    zone_id = aws_route53_zone.primary.id
+    name    = "vault." + aws_route53_zone.primary.name
+    type    = "A"
+    ttl     = "300"
+    records = [
+        aws_alb.vault_alb.dns_name
     ]
 }
 
