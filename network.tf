@@ -37,7 +37,7 @@ resource "aws_alb_listener" "http_vault" {
 
 resource "aws_route53_record" "vault" {
     allow_overwrite = true
-    zone_id = Z2VGUC188F45PC
+    zone_id = var.dns_zone_id
     name    = "vault.kabu.hashidemos.io"
     type    = "CNAME"
     ttl     = "300"
