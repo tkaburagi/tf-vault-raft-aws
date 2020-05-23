@@ -57,7 +57,7 @@ resource "aws_route53_record" "primary" {
 resource "aws_route53_record" "vault" {
     allow_overwrite = true
     zone_id = aws_route53_zone.primary.id
-    name    = "vault." + aws_route53_zone.primary.name
+    name    = "vault.${aws_route53_zone.primary.name}"
     type    = "A"
     ttl     = "300"
     records = [
