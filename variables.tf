@@ -4,7 +4,7 @@ variable "pubkey" {}
 variable "ssh_private_key" {}
 variable "dns_zone_id" {}
 variable "vault_instance_count" {
-    default = 3
+    default = 1
 }
 
 variable "region" {
