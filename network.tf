@@ -37,7 +37,7 @@ resource "aws_alb_listener" "http_vault" {
 
 #R53
 resource "aws_route53_zone" "primary" {
-    name = "vault.kabuctl.run"
+    name = "kabu-vault.hashidemo.io"
 }
 
 resource "aws_route53_record" "vault" {
