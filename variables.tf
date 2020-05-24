@@ -34,8 +34,7 @@ variable "pubic_subnets_cidr" {
 }
 
 variable "private_subnets_cidr" {
-    type = "list"
-    default = ["10.1.0.0/24"]
+    default = "10.1.0.0/24"
 }
 
 variable "private_ip" {
