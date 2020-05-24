@@ -3,7 +3,6 @@ variable "secret_key" {}
 variable "pubkey" {}
 variable "ssh_private_key" {}
 variable "dns_zone_id" {}
-variable "kms_key_id" {}
 
 variable "vault_fqdn" {
     default = "vault.kabu.hashidemos.io"
