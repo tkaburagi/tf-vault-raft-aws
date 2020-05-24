@@ -29,6 +29,6 @@ resource "aws_instance" "vault_ec2" {
                 export API_ADDR_REPLACE=http://${var.vault_fqdn}
 
                 sed "s|API_ADDR_REPLACE|`echo $API_ADDR_REPLACE`|g" vault-tempate-aws.hcl > config.hcl
-
+                nohup ./vault server -config /home/ubuntu/config.hcl start -log-level=debug > vault.log &
               EOF
 }
