@@ -95,7 +95,7 @@ resource "aws_route_table" "public" {
 
 # SubnetRouteTableAssociation
 resource "aws_route_table_association" "public" {
-    count = length(var.pubic_subnets_cidr)
+    count = length(var.subnets_cidr)
     subnet_id = aws_subnet.public.*.id[0]
     route_table_id = aws_route_table.public.id
 }
