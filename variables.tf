@@ -5,7 +5,7 @@ variable "ssh_private_key" {}
 variable "dns_zone_id" {}
 
 variable "vault_fqdn" {
-    default = " v"
+    default = "vault.kabu.hashidemos.io"
 }
 variable "vault_instance_count" {
     default = 1
