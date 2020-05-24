@@ -29,8 +29,10 @@ resource "aws_instance" "vault_ec2" {
                 export VAULT_AWSKMS_SEAL_KEY_ID=${aws_kms_key.kms_key.key_id}
                 export API_ADDR_REPLACE=http://${var.vault_fqdn}
                 export VAULT_ADDR=http://${var.vault_fqdn}
+                export CLUSTER_ADDR_REPLACE=${var.private_ips[count.index]}
 
                 sed "s|API_ADDR_REPLACE|`echo $API_ADDR_REPLACE`|g" vault-tempate-aws.hcl > config.hcl
+                sed -i　"s|CLUSTER_ADDR_REPLACE|`echo $CLUSTER_ADDR_REPLACE`|g" config.hcl
 
                 sleep 60
 
