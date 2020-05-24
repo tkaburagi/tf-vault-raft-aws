@@ -5,6 +5,6 @@ resource "aws_kms_key" "kms_key" {
 }
 
 resource "aws_kms_alias" "kms_key" {
-    name          = "kabu-vault-autounseal"
+    name          = "alias/kabu-vault-autounseal"
     target_key_id = aws_kms_key.kms_key.id
 }
