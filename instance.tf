@@ -33,5 +33,8 @@ resource "aws_instance" "vault_ec2" {
                 sleep 60
 
                 nohup ./vault server -config /home/ubuntu/config.hcl start -log-level=debug > vault.log &
+
+                ./vault operator init > .init.log
+
               EOF
 }
