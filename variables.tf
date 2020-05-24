@@ -3,6 +3,11 @@ variable "secret_key" {}
 variable "pubkey" {}
 variable "ssh_private_key" {}
 variable "dns_zone_id" {}
+variable "kms_key_id" {}
+
+variable "vault_fqdn" {
+    default = "vault.kabu.hashidemos.io"
+}
 variable "vault_instance_count" {
     default = 1
 }
@@ -48,5 +53,5 @@ variable "tags" {
 }
 
 variable "vault_dl_url" {
-    default = "https://releases.hashicorp.com/vault/1.1.2/vault_1.1.2_linux_amd64.zip"
+    default = "https://releases.hashicorp.com/vault/1.4.2+ent/vault_1.4.2+ent_linux_amd64.zip"
 }
