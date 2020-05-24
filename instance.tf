@@ -27,6 +27,7 @@ resource "aws_instance" "vault_ec2" {
                 export AWS_ACCESS_KEY_ID=${var.access_key}
                 export VAULT_AWSKMS_SEAL_KEY_ID=${aws_kms_key.kms_key.key_id}
                 export API_ADDR_REPLACE=http://${var.vault_fqdn}
+                export VAULT_ADDR=http://${var.vault_fqdn}
 
                 sed "s|API_ADDR_REPLACE|`echo $API_ADDR_REPLACE`|g" vault-tempate-aws.hcl > config.hcl
 
