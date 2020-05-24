@@ -28,18 +28,14 @@ variable "vpc_cidr" {
     default = "10.10.0.0/16"
 }
 
-variable "pubic_subnets_cidr" {
+variable "subnets_cidr" {
     type = "list"
     default = ["10.10.0.0/24", "10.10.1.0/24"]
 }
 
-variable "private_subnets_cidr" {
-    default = "10.1.0.0/24"
-}
-
-variable "private_ip" {
+variable "private_ips" {
     type = "list"
-    default = ["10.1.0.1", "10.1.0.2","10.1.0.3",]
+    default = ["10.10.0.50", "10.10.0.51","10.10.0.52"]
 }
 
 variable "public_subnet_name" {

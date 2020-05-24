@@ -58,19 +58,11 @@ resource "aws_vpc" "playground" {
 resource "aws_subnet" "public" {
     vpc_id = aws_vpc.playground.id
     count = length(var.availability_zones)
-    cidr_block = var.pubic_subnets_cidr[count.index]
+    cidr_block = var.subnets_cidr[count.index]
     availability_zone = var.availability_zones[count.index]
     tags = {
         Name = "${var.public_subnet_name}-${count.index}"
     }
-}
-
-# Private Subnet
-resource "aws_subnet" "private" {
-    cidr_block = var.private_subnets_cidr
-    vpc_id = aws_vpc.playground.id
-    count = length(var.availability_zones)
-    availability_zone = var.availability_zones[count.index]
 }
 
 # EIP

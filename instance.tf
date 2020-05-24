@@ -7,7 +7,7 @@ resource "aws_instance" "vault_ec2" {
     subnet_id = aws_subnet.public.*.id[0]
     key_name = aws_key_pair.deployer.id
     associate_public_ip_address = true
-    private_ip = var.private_ip[count.index]
+    private_ip = var.private_ips[count.index]
 
     user_data =<<-EOF
                 #!/bin/sh
