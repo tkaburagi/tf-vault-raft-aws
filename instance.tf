@@ -16,7 +16,7 @@ resource "aws_instance" "vault_ec2" {
                 sudo apt-get install zip unzip
 
                 wget "${var.vault_dl_url}"
-                wget https://raw.githubusercontent.com/tkaburagi/vault-configs/master/remote-vault-template.hcl
+                wget https://raw.githubusercontent.com/tkaburagi/vault-configs/master/vault-tempate-aws.hcl
 
                 unzip vault*.zip
                 rm vault*zip
@@ -28,7 +28,7 @@ resource "aws_instance" "vault_ec2" {
                 export VAULT_AWSKMS_SEAL_KEY_ID=${var.kms_key_id}
                 export API_ADDR_REPLACE=http://${var.vault_fqdn}
 
-                sed "s|API_ADDR_REPLACE|`echo $API_ADDR_REPLACE`|g" remote-vault-template.hcl > config.hcl
+                sed "s|API_ADDR_REPLACE|`echo $API_ADDR_REPLACE`|g" vault-tempate-aws.hcl > config.hcl
 
               EOF
 }
