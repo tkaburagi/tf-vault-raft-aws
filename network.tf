@@ -9,11 +9,11 @@ resource "aws_alb" "vault_alb" {
 resource "aws_alb_target_group" "vault_tg" {
     name = "vault-tg"
     port = 8200
-    protocol = "HTTP"
+    protocol = "HTTPS"
     vpc_id = aws_vpc.playground.id
 
     health_check {
-        protocol = "HTTP"
+        protocol = "HTTPS"
     }
 }
 
@@ -28,6 +28,17 @@ resource "aws_alb_listener" "http_vault" {
     load_balancer_arn = aws_alb.vault_alb.arn
     port              = 80
     protocol          = "HTTP"
+
+    default_action {
+        type             = "forward"
+        target_group_arn = aws_alb_target_group.vault_tg.arn
+    }
+}
+
+resource "aws_alb_listener" "https_vault" {
+    load_balancer_arn = aws_alb.vault_alb.arn
+    port              = 443
+    protocol          = "HTTPS"
 
     default_action {
         type             = "forward"
