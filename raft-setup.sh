@@ -1,5 +1,12 @@
 #!/bin/bash
 
+PRV_IP_0=10.10.0.50
+PRV_IP_1=10.10.0.51
+PRV_IP_2=10.10.0.52
+CA_CERT=$(cat /Users/kabu/hashicorp/certs/vaultca-hashidemos.crt.pem)
+CLIENT_CERT=$(cat /Users/kabu/hashicorp/certs/vaultvault-hashidemos.crt.pem)
+CLIENT_KEY=$(cat /Users/kabu/hashicorp/certs/vaultvault-hashidemos.key.pem)
+
 PUB_IP_0=$(
   aws ec2 describe-addresses \
         --filters "Name=tag-key,Values=Name" \
@@ -33,32 +40,44 @@ echo "PUB_IP_2: "${PUB_IP_2}
 
 # Init Learder
 echo "# Init Learder"
-ssh -i ~/.ssh/hashistack.pem ubuntu@${PUB_IP_0} \
--o "StrictHostKeyChecking no" \
-VAULT_ADDR=http://${PUB_IP_0}:8200 ./vault operator init -format-json
+VTOKEN=$(
+  ssh -i ~/.ssh/hashistack.pem ubuntu@${PUB_IP_0} \
+  -o "StrictHostKeyChecking no" \
+  VAULT_ADDR=https://${PRV_IP_0}:8200 ./vault operator init -format=json -tls-skip-verify | jq -r '.root_token'
+)
+
+echo "VAULT TOKEN: "$VTOKEN
 
 # Join Cluster
 echo "# Join Cluster"
 ssh -i ~/.ssh/hashistack.pem ubuntu@${PUB_IP_1} \
 -o "StrictHostKeyChecking no" \
-VAULT_ADDR=http://${PUB_IP_1}:8200 ./vault operator raft join http://${PUB_IP_0}:8200
+curl \
+    --header "X-Vault-Token: ${VTOKEN}" \
+    --request POST \
+    --data @/home/ubuntu/payload.json \
+    https://${PRV_IP_1}:8200/v1/sys/storage/raft/join --insecure
 
 ssh -i ~/.ssh/hashistack.pem ubuntu@${PUB_IP_2} \
 -o "StrictHostKeyChecking no" \
-VAULT_ADDR=http://${PUB_IP_2}:8200 ./vault operator raft join http://${PUB_IP_0}:8200
+curl \
+    --header "X-Vault-Token: ${VTOKEN}" \
+    --request POST \
+    --data @/home/ubuntu/payload.json \
+    https://${PRV_IP_2}/v1/sys/storage/raft/join --insecure
 
 # Check Status
 echo "#### NODE0 STATUS"
 ssh -i ~/.ssh/hashistack.pem ubuntu@${PUB_IP_0} \
 -o "StrictHostKeyChecking no" \
-VAULT_ADDR=http://${PUB_IP_0}:8200 ./vault status
+VAULT_ADDR=https://${PRV_IP_0}:8200 ./vault status -tls-skip-verify
 
 echo "#### NODE1 STATUS"
 ssh -i ~/.ssh/hashistack.pem ubuntu@${PUB_IP_1} \
 -o "StrictHostKeyChecking no" \
-VAULT_ADDR=http://${PUB_IP_1}:8200 ./vault status
+VAULT_ADDR=https://${PRV_IP_1}:8200 ./vault status -tls-skip-verify
 
 echo "#### NODE2 STATUS"
 ssh -i ~/.ssh/hashistack.pem ubuntu@${PUB_IP_2} \
 -o "StrictHostKeyChecking no" \
-VAULT_ADDR=http://${PUB_IP_2}:8200 ./vault status
+VAULT_ADDR=https://${PRV_IP_2}:8200 ./vault status -tls-skip-verify
