@@ -8,6 +8,7 @@ resource "aws_instance" "vault_ec2" {
     key_name = aws_key_pair.deployer.id
     associate_public_ip_address = true
     private_ip = var.private_ips[count.index]
+    instance_type = "${var.vault_instance_name}-${count.index}"
 
     user_data =<<-EOF
                 #!/bin/sh
@@ -30,11 +31,10 @@ resource "aws_instance" "vault_ec2" {
                 export API_ADDR_REPLACE=http://${var.vault_fqdn}
                 export VAULT_ADDR=http://${var.vault_fqdn}
                 export CLUSTER_ADDR_REPLACE=${var.private_ips[count.index]}
-                export NODE_ID_REPLACE=${var.vault_instance_name}-${count.index}
 
                 sed "s|API_ADDR_REPLACE|`echo $API_ADDR_REPLACE`|g" vault-tempate-aws.hcl > config-0.hcl
                 sed "s|CLUSTER_ADDR_REPLACE|`echo $CLUSTER_ADDR_REPLACE`|g" config-0.hcl > config-1.hcl
-                sed "s|NODE_ID_REPLACE|`echo NODE_ID_REPLACE`|g" config-1.hcl > config.hcl
+                sed "s|NODE_ID_REPLACE|`echo CLUSTER_ADDR_REPLACE`|g" config-1.hcl > config.hcl
 
                 rm config-*.hcl
 
