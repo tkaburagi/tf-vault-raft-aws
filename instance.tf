@@ -14,11 +14,12 @@ resource "aws_instance" "vault_ec2" {
 
                 cd /home/ubuntu
                 mkdir vault-raft-data
-                                                       え
                 sudo apt-get install zip unzip
 
                 wget "${var.vault_dl_url}"
                 wget https://raw.githubusercontent.com/tkaburagi/vault-configs/master/vault-tempate-aws.hcl
+                wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/vaultvault-hashidemos.crt.pem
+                wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/vaultvault-hashidemos.key.pem
 
                 unzip vault*.zip
                 rm vault*zip
@@ -31,14 +32,10 @@ resource "aws_instance" "vault_ec2" {
                 export API_ADDR_REPLACE=http://${var.vault_fqdn}
                 export VAULT_ADDR=http://${var.vault_fqdn}
                 export CLUSTER_ADDR_REPLACE=${var.private_ips[count.index]}
-                export TLS_CERT_FILE_REPLACE=${var.tls_cert_file}
-                export TLS_KEY_FILE_REPLACE=${var.tls_key_file}
 
                 sed "s|API_ADDR_REPLACE|`echo $API_ADDR_REPLACE`|g" vault-tempate-aws.hcl > config-0.hcl
                 sed "s|CLUSTER_ADDR_REPLACE|`echo $CLUSTER_ADDR_REPLACE`|g" config-0.hcl > config-1.hcl
-                sed "s|NODE_ID_REPLACE|`echo $CLUSTER_ADDR_REPLACE`|g" config-1.hcl > config-2.hcl
-                sed "s|TLS_CERT_FILE_REPLACE|`echo TLS_CERT_FILE_REPLACE`|g" config-2.hcl > config.hcl
-                sed -i "s|TLS_KEY_FILE_REPLACE|`echo TLS_KEY_FILE_REPLACE`|g" config.hcl
+                sed "s|NODE_ID_REPLACE|`echo $CLUSTER_ADDR_REPLACE`|g" config-1.hcl > config.hcl
 
                 sleep 60
 
