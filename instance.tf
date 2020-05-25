@@ -34,7 +34,7 @@ resource "aws_instance" "vault_ec2" {
 
                 sed "s|API_ADDR_REPLACE|`echo $API_ADDR_REPLACE`|g" vault-tempate-aws.hcl > config-0.hcl
                 sed "s|CLUSTER_ADDR_REPLACE|`echo $CLUSTER_ADDR_REPLACE`|g" config-0.hcl > config-1.hcl
-                sed -i "s|NODE_ID_REPLACE|`echo NODE_ID_REPLACE`|g" config-1.hcl > config.hcl
+                sed "s|NODE_ID_REPLACE|`echo NODE_ID_REPLACE`|g" config-1.hcl > config.hcl
 
                 rm config-*.hcl
 
