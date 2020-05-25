@@ -20,6 +20,7 @@ resource "aws_instance" "vault_ec2" {
                 wget https://raw.githubusercontent.com/tkaburagi/vault-configs/master/vault-tempate-aws.hcl
                 wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/vaultvault-hashidemos.crt.pem
                 wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/vaultvault-hashidemos.key.pem
+                wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/vaultca-hashidemos.crt.pem
 
                 unzip vault*.zip
                 rm vault*zip
