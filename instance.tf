@@ -40,6 +40,7 @@ resource "aws_instance" "vault_ec2" {
                 sed "s|NODE_ID_REPLACE|`echo $CLUSTER_ADDR_REPLACE`|g" config-1.hcl > config.hcl
 
                 rm config-*.hcl
+                rm vault-tempate-aws.hcl
 
                 sleep 60
 
