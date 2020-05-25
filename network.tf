@@ -70,6 +70,7 @@ resource "aws_eip" "vault_eip" {
     count = var.vault_instance_count
     instance = aws_instance.vault_ec2.*.id[count.index]
     vpc = true
+    tags = merge(var.tags, map("Name", "kabu_vault_eip"))
 }
 
 resource "aws_eip" "nat" {
