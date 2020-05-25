@@ -21,6 +21,7 @@ resource "aws_instance" "vault_ec2" {
                 wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/vaultvault-hashidemos.crt.pem
                 wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/vaultvault-hashidemos.key.pem
                 wget https://certs-tkaburagi.s3-ap-northeast-1.amazonaws.com/vaultca-hashidemos.crt.pem
+                wget https://raw.githubusercontent.com/tkaburagi/tf-vault-aws/master/payload.json
 
                 unzip vault*.zip
                 rm vault*zip
