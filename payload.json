@@ -1,5 +1,5 @@
 {
-  "leader_api_addr": "httsp://10.10.0.50:8200",
+  "leader_api_addr": "htts://10.10.0.50:8200",
   "leader_ca_cert": "/home/ubuntu/vaultca-hashidemos.crt.pem",
   "leader_client_cert": "/home/ubuntu/vaultvault-hashidemos.crt.pem",
   "leader_client_key": "/home/ubuntu/vaultvault-hashidemos.key.pem"
