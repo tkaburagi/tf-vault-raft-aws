@@ -39,6 +39,8 @@ resource "aws_instance" "vault_ec2" {
                 sed "s|CLUSTER_ADDR_REPLACE|`echo $CLUSTER_ADDR_REPLACE`|g" config-0.hcl > config-1.hcl
                 sed "s|NODE_ID_REPLACE|`echo $CLUSTER_ADDR_REPLACE`|g" config-1.hcl > config.hcl
 
+                rm config-*.hcl
+
                 sleep 60
 
                 nohup ./vault server -config /home/ubuntu/config.hcl start -log-level=debug > vault.log &
