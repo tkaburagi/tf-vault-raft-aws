@@ -8,7 +8,6 @@ resource "aws_instance" "vault_ec2" {
     key_name = aws_key_pair.deployer.id
     associate_public_ip_address = true
     private_ip = var.private_ips[count.index]
-    instance_type = "${var.vault_instance_name}-${count.index}"
 
     user_data =<<-EOF
                 #!/bin/sh
