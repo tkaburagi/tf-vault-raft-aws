@@ -30,7 +30,7 @@ resource "aws_instance" "vault_ec2" {
                 export API_ADDR_REPLACE=http://${var.vault_fqdn}
                 export VAULT_ADDR=http://${var.vault_fqdn}
                 export CLUSTER_ADDR_REPLACE=${var.private_ips[count.index]}
-                export NODE_ID_REPLACE="${var.vault_instance_name}-${count.index}"
+                export NODE_ID_REPLACE=${var.vault_instance_name}-${count.index}
 
                 sed "s|API_ADDR_REPLACE|`echo $API_ADDR_REPLACE`|g" vault-tempate-aws.hcl > config-0.hcl
                 sed "s|CLUSTER_ADDR_REPLACE|`echo $CLUSTER_ADDR_REPLACE`|g" config-0.hcl > config-1.hcl
