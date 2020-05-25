@@ -38,10 +38,7 @@ resource "aws_instance" "vault_ec2" {
                 sed "s|CLUSTER_ADDR_REPLACE|`echo $CLUSTER_ADDR_REPLACE`|g" config-0.hcl > config-1.hcl
                 sed "s|NODE_ID_REPLACE|`echo $CLUSTER_ADDR_REPLACE`|g" config-1.hcl > config-2.hcl
                 sed "s|TLS_CERT_FILE_REPLACE|`echo TLS_CERT_FILE_REPLACE`|g" config-2.hcl > config.hcl
-                sed -i "s|TLS_KEY_FILE_REPLACE|`echo TLS_KEY_FILE_REPLACE`|g" config.hcl > config.hcl
-
-
-                rm config-*.hcl
+                sed -i "s|TLS_KEY_FILE_REPLACE|`echo TLS_KEY_FILE_REPLACE`|g" config.hcl
 
                 sleep 60
 
