@@ -61,7 +61,7 @@ resource "aws_route53_record" "vault" {
 
 # ACM
 resource aws_acm_certificate cert {
-    domain_name       = var.vault_fqdn
+    domain_name       = var.domain
     validation_method = "DNS"
 }
 

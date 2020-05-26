@@ -4,6 +4,10 @@ variable "pubkey" {}
 variable "ssh_private_key" {}
 variable "dns_zone_id" {}
 
+variable "domain" {
+    default = "hashidemos.io"
+}
+
 variable "vault_fqdn" {
     default = "vault.kabu.hashidemos.io"
 }
