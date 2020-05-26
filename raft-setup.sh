@@ -48,23 +48,10 @@ VTOKEN=$(
 
 echo "VAULT TOKEN: "$VTOKEN
 
-# Join Cluster
-echo "# Join Cluster"
-ssh -i ~/.ssh/hashistack.pem ubuntu@${PUB_IP_1} \
+echo "#### NODE0 STATUS"
+ssh -i ~/.ssh/hashistack.pem ubuntu@${PUB_IP_0} \
 -o "StrictHostKeyChecking no" \
-curl \
-    --header "X-Vault-Token: ${VTOKEN}" \
-    --request POST \
-    --data @/home/ubuntu/payload.json \
-    https://${PRV_IP_1}:8200/v1/sys/storage/raft/join --insecure
-
-ssh -i ~/.ssh/hashistack.pem ubuntu@${PUB_IP_2} \
--o "StrictHostKeyChecking no" \
-curl \
-    --header "X-Vault-Token: ${VTOKEN}" \
-    --request POST \
-    --data @/home/ubuntu/payload.json \
-    https://${PRV_IP_2}/v1/sys/storage/raft/join --insecure
+cat vault.log
 
 # Check Status
 echo "#### NODE0 STATUS"
