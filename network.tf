@@ -39,13 +39,15 @@ resource "aws_alb_listener" "https_vault" {
     load_balancer_arn = aws_alb.vault_alb.arn
     port              = 443
     protocol          = "HTTPS"
-
+    ssl_policy        = "ELBSecurityPolicy-2016-08"
+    certificate_arn   = aws_acm_certificate.cert.arn
     default_action {
         type             = "forward"
         target_group_arn = aws_alb_target_group.vault_tg.arn
     }
 }
 
+# Route 53
 resource "aws_route53_record" "vault" {
     allow_overwrite = true
     zone_id = var.dns_zone_id
@@ -55,6 +57,17 @@ resource "aws_route53_record" "vault" {
     records = [
         aws_alb.vault_alb.dns_name
     ]
+}
+
+# ACM
+resource aws_acm_certificate cert {
+    domain_name       = var.vault_fqdn
+    validation_method = "DNS"
+}
+
+resource aws_acm_certificate_validation cert {
+    certificate_arn = aws_acm_certificate.cert.arn
+    validation_record_fqdns = [aws_route53_record.vault.fqdn]
 }
 
 # VPC
