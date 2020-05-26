@@ -65,11 +65,6 @@ resource aws_acm_certificate cert {
     validation_method = "DNS"
 }
 
-resource aws_acm_certificate_validation cert {
-    certificate_arn = aws_acm_certificate.cert.arn
-    validation_record_fqdns = [aws_route53_record.vault.fqdn]
-}
-
 # VPC
 resource "aws_vpc" "playground" {
     cidr_block = var.vpc_cidr
